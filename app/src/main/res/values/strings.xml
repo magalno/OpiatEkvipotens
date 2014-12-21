@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OpiatEkvipotens</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_send">result_activity</string>
+    <string name="title_activity_result">My Message</string>
+    <string name="get_the_name_text_view" />
+    <string name="users_name_sent_back" />
+    <string name="enter_name_text_view">Enter name:</string>
+    <string name="calling_activity_message">The calling activity was:</string>
+    <string name="calculate">Calculate</string>
+    <string name="enter_amount">enter amount</string>
+    <string name="enter_dosage">enter_dosage</string>
+
+</resources>
