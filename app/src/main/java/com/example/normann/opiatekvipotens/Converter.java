@@ -15,6 +15,9 @@ public class Converter extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
+
+        // Run the disclaimer EULA
+        new SimpleEula(this).show();
     }
 
 

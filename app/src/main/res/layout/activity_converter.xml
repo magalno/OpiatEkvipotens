@@ -30,4 +30,9 @@
         android:layout_marginTop="20dp"
         android:id="@+id/users_name_message"/>
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello"
+        />
 </LinearLayout>
