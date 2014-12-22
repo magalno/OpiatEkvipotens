@@ -21,7 +21,24 @@ public class Converter extends ActionBarActivity {
         // Run the disclaimer EULA
         new SimpleEula(this).show();
 
-        String[] strings = { "Red", "Blue", "Green" };
+        //String[] strings = { "Red", "Blue", "Green" };
+        String[] strings = {"morfin po",
+                "ketobemidon po",
+                "kodein po",
+                "tramadol po",
+                "oxykodon po",
+                "tapentadol po",
+                "hydromorfon po",
+                "buprenorfin sl",
+                "metadon po",
+                "buprenorfin bandaid",
+                "fentanyl bandaid",
+                "morfin sc/iv",
+                "ketobemidon sc/iv",
+                "fentanyl sc/iv",
+                "oxykodon sc/iv",
+                "hydromorfon sc/iv",
+                "metadon sc/iv" };
 
         MultiSelectSpinner mySpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
         mySpin.setItems(strings);
