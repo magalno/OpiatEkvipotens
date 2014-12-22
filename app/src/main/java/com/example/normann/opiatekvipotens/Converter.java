@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class Converter extends ActionBarActivity {
 
@@ -18,7 +20,17 @@ public class Converter extends ActionBarActivity {
 
         // Run the disclaimer EULA
         new SimpleEula(this).show();
-    }
+
+        String[] strings = { "Red", "Blue", "Green" };
+
+        MultiSelectSpinner mySpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
+        mySpin.setItems(strings);
+
+// ...
+
+        List<String> selected = mySpin.getSelectedStrings();
+
+}
 
 
     @Override
