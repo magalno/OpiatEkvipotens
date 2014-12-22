@@ -7,6 +7,23 @@
     android:padding="20dp"
     tools:context="com.example.normann.opiatekvipotens.Converter">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text= "Enter dosage:" />
+
+        <EditText
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/dosage" />
+
+    </LinearLayout>
+
     <TextView
         android:text="@string/get_the_name_text_view"
         android:layout_width="wrap_content"
