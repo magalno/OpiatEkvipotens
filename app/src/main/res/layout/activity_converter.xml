@@ -31,6 +31,26 @@
         android:textStyle="bold"
         android:textSize="20sp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From:"
+        android:id="@+id/textView"
+        android:textSize="24dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toSpinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To:"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24dp" />
+
     <com.example.normann.opiatekvipotens.MultiSelectSpinner
         android:id="@+id/my_spin"
         android:layout_width="match_parent"

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,12 +42,15 @@ public class Converter extends ActionBarActivity {
                 "hydromorfon sc/iv",
                 "metadon sc/iv" };
 
-        MultiSelectSpinner mySpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
-        mySpin.setItems(strings);
+        Spinner toSpin = (Spinner)findViewById(R.id.toSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strings);
+        toSpin.setAdapter(adapter);
+        MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
+        fromSpin.setItems(strings);
 
 // ...
 
-        List<String> selected = mySpin.getSelectedStrings();
+        List<String> selected = fromSpin.getSelectedStrings();
 
 }
 
