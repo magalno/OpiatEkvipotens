@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class Converter extends ActionBarActivity {
 
 // ...
 
-        List<String> selected = fromSpin.getSelectedStrings();
+        //List<String> selected = fromSpin.getSelectedStrings();
 
 }
 
@@ -94,6 +95,10 @@ public class Converter extends ActionBarActivity {
 
         startActivityForResult(getNameScreenIntent, result);
 
+        MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
+        List<String> selected = fromSpin.getSelectedStrings();
+        String sel1 = selected.get(0);
+        Toast.makeText(getApplicationContext(), (CharSequence) sel1, Toast.LENGTH_LONG).show();
     }
 
     @Override
