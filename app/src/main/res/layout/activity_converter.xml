@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:gravity="center|top"
     android:padding="20dp"
-    tools:context="com.example.normann.opiatekvipotens.Converter">
+    tools:context="com.example.normann.opiatekvipotens.Converter"
+    android:id="@+id/">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
             android:text= "Enter dosage:" />
 
         <EditText
-            android:layout_width="185dp"
+            android:layout_width="70dp"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content"
             android:id="@+id/dosage" />
@@ -42,6 +43,8 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
         android:id="@+id/toSpinner" />
 
     <TextView
