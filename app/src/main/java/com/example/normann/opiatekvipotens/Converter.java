@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class Converter extends ActionBarActivity {
-    /* Coeffient factor for oral medicins to oral morphine  */
+    // Coeffient factor for oral medicins to oral morphine
     public final static double COEF_MORPHINE_PO_TO_MORPHINE_PO = 1;
     public final static double COEF_KETOBEMIDON_PO_TO_MORPHINE_PO = 1;
     public final static double COEF_KODEIN_PO_TO_MORPHINE_PO = 0.1;
@@ -24,10 +24,10 @@ public class Converter extends ActionBarActivity {
     public final static double COEF_TAPENTADOL_PO_TO_MORPHINE_PO  = (1/3);
     public final static double COEF_HYDROMORFON_PO_TO_MORPHINE_PO = 5;
     public final static double COEF_BUPRENORFIN_SL_TO_MORPHINE_PO = 75;
-
-    public final static double COEF_BUPRENORFIN_BANDAID_TO_MORPHINE_PO = 1.8;	// baset på 1:75 ratio ?
-    public final static double COEF_FENTANYL_BANDAID_TO_MORPHINE_PO = 2.4; // basert på ratio 1:100?
-
+    // Coeffient factor for plaster medicins to oral morphine
+    public final static double COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO = 1.8;	// baset på 1:75 ratio ?
+    public final static double COEF_FENTANYL_PLASTER_TO_MORPHINE_PO = 2.4; // basert på ratio 1:100?
+    // Coeffient factor for oral medicins to oral morphine
     public final static double COEF_MORPHINE_SC_IV_TO_MORPHINE_PO = 3;
     public final static double COEF_KETOBEMIDON_SC_IV_TO_MORPHINE_PO = 1*3;
     public final static double COEF_FENTANYL_SC_IV_TO_MORPHINE_PO = 50*3;
@@ -42,8 +42,8 @@ public class Converter extends ActionBarActivity {
             "hydromorfon po",
             "buprenorfin sl",
             "metadon po",
-            "buprenorfin bandaid",
-            "fentanyl bandaid",
+            "buprenorfin plaster",
+            "fentanyl plaster",
             "morfin sc/iv",
             "ketobemidon sc/iv",
             "fentanyl sc/iv",
@@ -61,11 +61,12 @@ public class Converter extends ActionBarActivity {
         // Run the disclaimer EULA
         new SimpleEula(this).show();
 
-        //String[] strings = { "Red", "Blue", "Green" };
-
+        // Input selector
         Spinner toSpin = (Spinner)findViewById(R.id.toSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opiates);
         toSpin.setAdapter(adapter);
+
+        // Output selector
         MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
         fromSpin.setItems(opiates);
 
@@ -97,15 +98,15 @@ public class Converter extends ActionBarActivity {
 
     public void onGetNameClick(View view) {
 
-        /* Get target opiods from spinner */
+        // Get target opiods from input selector
         MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
         List<String> selected = fromSpin.getSelectedStrings();
 
         double amount_original=0, amount_morphine_po=0;
         String opiode_original = "test";    //TODO:: get original opiode name form spinner
 
-        /* Convert medicine to Morphine before further convertion... */
-        if(opiode_original == opiates[0]) {     // "morfin po",
+        // Convert medicine to Morphine before further convertion...
+        if(opiode_original == opiates[0]) {     // "morphine po",
             amount_morphine_po = amount_original * COEF_MORPHINE_PO_TO_MORPHINE_PO;
         }else if(opiode_original == opiates[1]) {    // "ketobemidon po",
             amount_morphine_po = amount_original * COEF_KETOBEMIDON_PO_TO_MORPHINE_PO;
@@ -124,9 +125,9 @@ public class Converter extends ActionBarActivity {
         }else if(opiode_original == opiates[8]) {    // "metadon po",
            // amount_morphine_po = amount_original * getCoef_Metadon_To_MorphinePo(amount_orignal);
         }else if(opiode_original == opiates[9]) {    // "buprenorfin bandaid",
-            amount_morphine_po = amount_original * COEF_BUPRENORFIN_BANDAID_TO_MORPHINE_PO;
+            amount_morphine_po = amount_original * COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
         }else if(opiode_original == opiates[10]) {    // "fentanyl bandaid",
-            amount_morphine_po = amount_original * COEF_FENTANYL_BANDAID_TO_MORPHINE_PO;
+            amount_morphine_po = amount_original * COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
         }else if(opiode_original == opiates[11]) {    // "morfin sc/iv",
             amount_morphine_po = amount_original * COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
         }else if(opiode_original == opiates[12]) {    // "ketobemidon sc/iv",
@@ -141,10 +142,10 @@ public class Converter extends ActionBarActivity {
             //amount_morphine_po = amount_original *
         }
 
-        /* Array to hold the result values after the conversion */
+        // Array to hold the result values after the conversion
         double[] amount_result = new double[selected.size()];
 
-        /* Convert Morphine medicine into target medicine */
+        // Convert Morphine medicine into target medicine
         for(int i=0; i< selected.size(); i++) {
             if(selected.get(i) == opiates[0]) {     // "morfin po",
                 amount_result[i] = amount_morphine_po / COEF_MORPHINE_PO_TO_MORPHINE_PO;
@@ -165,9 +166,9 @@ public class Converter extends ActionBarActivity {
             }else if(selected.get(i) == opiates[8]) {    // "metadon po",
                 // amount_morphine_po = amount_morphine_po * getCoef_Metadon_To_MorphinePo(amount_orignal);
             }else if(selected.get(i) == opiates[9]) {    // "buprenorfin bandaid",
-                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_BANDAID_TO_MORPHINE_PO;
+                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
             }else if(selected.get(i) == opiates[10]) {    // "fentanyl bandaid",
-                amount_result[i] = amount_morphine_po / COEF_FENTANYL_BANDAID_TO_MORPHINE_PO;
+                amount_result[i] = amount_morphine_po / COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
             }else if(selected.get(i) == opiates[11]) {    // "morfin sc/iv",
                 amount_result[i] = amount_morphine_po / COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
             }else if(selected.get(i) == opiates[12]) {    // "ketobemidon sc/iv",
