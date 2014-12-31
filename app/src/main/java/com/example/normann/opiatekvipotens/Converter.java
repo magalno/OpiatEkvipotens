@@ -68,6 +68,8 @@ public class Converter extends ActionBarActivity {
         toSpin.setAdapter(adapter);
         MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
         fromSpin.setItems(opiates);
+        String[] morphine = {opiates[0]};
+        fromSpin.setSelection(morphine);
 
 // ...
 
