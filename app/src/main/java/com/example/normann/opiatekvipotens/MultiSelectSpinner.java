@@ -3,6 +3,7 @@ package com.example.normann.opiatekvipotens;
 /**
  * Created by Morten on 22.12.2014.
  */
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -155,8 +156,8 @@ public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickLis
      * Returns a list of strings, one for each selected item.
      * @return
      */
-    public List<String> getSelectedStrings() {
-        List<String> selection = new LinkedList<String>();
+    public ArrayList<String> getSelectedStrings() {
+        ArrayList<String> selection = new ArrayList<String>();
         for (int i = 0; i < _items.length; ++i) {
             if (_selection[i]) {
                 selection.add(_items[i]);

@@ -3,14 +3,17 @@ package com.example.normann.opiatekvipotens;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -99,15 +102,22 @@ public class Converter extends ActionBarActivity {
     }
 
     public void onGetNameClick(View view) {
+        // Get input opioid
+        Spinner originalSpin = (Spinner)findViewById(R.id.toSpinner);
+        String opiode_original = originalSpin.getSelectedItem().toString();    //TODO:: get original opiode name form spinner
+
 
         // Get target opiods from input selector
         MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
-        List<String> selected = fromSpin.getSelectedStrings();
+        ArrayList<String> selected = fromSpin.getSelectedStrings();
 
-        double amount_original=0, amount_morphine_po=0;
-        String opiode_original = "test";    //TODO:: get original opiode name form spinner
+        // Get amount_original
+        EditText dosageEditText = (EditText)findViewById(R.id.dosage);
+        String dosageTextString = dosageEditText.getText().toString();
+        double amount_original= Double.parseDouble(dosageTextString);
 
         // Convert medicine to Morphine before further convertion...
+        double amount_morphine_po=0;
         if(opiode_original == opiates[0]) {     // "morphine po",
             amount_morphine_po = amount_original * COEF_MORPHINE_PO_TO_MORPHINE_PO;
         }else if(opiode_original == opiates[1]) {    // "ketobemidon po",
@@ -194,36 +204,34 @@ public class Converter extends ActionBarActivity {
         // We ask for the Activity to start and don't expect a result to be sent back
         // startActivity(getNameScreenIntent);
 
-        // We use startActivityForResult when we expect a result to be sent back
-
-        final int result = 1;
 
         // To send data use putExtra with a String name followed by its value
         getNameScreenIntent.putExtra("callingActivity", "MainActivity");
-        getNameScreenIntent.putExtra("original opiod", 0);   //TODO:: insert original opiode name
+        getNameScreenIntent.putExtra("original opiod", opiode_original);
         getNameScreenIntent.putExtra("original amount", amount_original);
-        getNameScreenIntent.putExtra("target opiodes", 0);   //TODO:: insert target opiode names
+        getNameScreenIntent.putStringArrayListExtra("target opiodes", selected);
+//        getNameScreenIntent.putExtra("target opiodes", selected);
         getNameScreenIntent.putExtra("target amount", amount_result);
 
 
-        startActivityForResult(getNameScreenIntent, result);
 
-        String sel1 = selected.get(0);
-        Toast.makeText(getApplicationContext(), (CharSequence) sel1, Toast.LENGTH_LONG).show();
+        startActivity(getNameScreenIntent);
+
+        Toast.makeText(Converter.this, opiode_original, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Create the TextView so I can put the users name on it
-        TextView usersNameMessage = (TextView) findViewById(R.id.users_name_message);
-
-        // Get the users name from the previous Activity
-        String nameSentBack = data.getStringExtra("UsersName");
-
-        // Add the users name to the end of the textView
-        usersNameMessage.append(" " + nameSentBack);
-
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Create the TextView so I can put the users name on it
+//        TextView usersNameMessage = (TextView) findViewById(R.id.users_name_message);
+//
+//        // Get the users name from the previous Activity
+//        String nameSentBack = data.getStringExtra("UsersName");
+//
+//        // Add the users name to the end of the textView
+//        usersNameMessage.append(" " + nameSentBack);
+//
+//    }
 }
