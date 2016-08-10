@@ -26,9 +26,11 @@ public class Result extends Activity{
         TextView originalTextView = (TextView)findViewById(R.id.original);
         originalTextView.setText(original_opiod);
         ArrayList<String> selected = intent.getStringArrayListExtra("target opioids");
+        double[] dosages = intent.getDoubleArrayExtra("target amount");
 
         // Display selected opioids as listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, R.id.listviewopioid, selected);
+        MyAdapter adapter = new MyAdapter(this, selected, dosages);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, R.id.listviewopioid, selected);
         ListView resultListView = (ListView) findViewById(R.id.resultListView);
         resultListView.setAdapter(adapter);
     }
