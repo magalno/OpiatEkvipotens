@@ -3,18 +3,15 @@ package com.example.normann.opiatekvipotens;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Converter extends ActionBarActivity {
@@ -36,7 +33,7 @@ public class Converter extends ActionBarActivity {
     public final static double COEF_FENTANYL_SC_IV_TO_MORPHINE_PO = 50*3;
     public final static double COEF_OXYKODON_SC_IV_TO_MORPHINE_PO = 1*3;
     public final static double COEF_HYDROMORFON_SC_IV_TO_MORPHINE_PO = 5*3;
-    public static final String[] opiates = {"morfin po",
+    public static final String[] opioids = {"morfin po",
             "ketobemidon po",
             "kodein po",
             "tramadol po",
@@ -66,13 +63,13 @@ public class Converter extends ActionBarActivity {
 
         // Input selector
         Spinner toSpin = (Spinner)findViewById(R.id.toSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opiates);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opioids);
         toSpin.setAdapter(adapter);
 
         // Output selector
         MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
-        fromSpin.setItems(opiates);
-        String[] morphine = {opiates[0]};
+        fromSpin.setItems(opioids);
+        String[] morphine = {opioids[0]};
         fromSpin.setSelection(morphine);
 
 // ...
@@ -101,10 +98,10 @@ public class Converter extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onGetNameClick(View view) {
+    public void onConvertClick(View view) {
         // Get input opioid
         Spinner originalSpin = (Spinner)findViewById(R.id.toSpinner);
-        String opiode_original = originalSpin.getSelectedItem().toString();    //TODO:: get original opiode name form spinner
+        String opioid_original = originalSpin.getSelectedItem().toString();
 
 
         // Get target opiods from input selector
@@ -117,121 +114,106 @@ public class Converter extends ActionBarActivity {
         double amount_original= Double.parseDouble(dosageTextString);
 
         // Convert medicine to Morphine before further convertion...
-        double amount_morphine_po=0;
-        if(opiode_original == opiates[0]) {     // "morphine po",
-            amount_morphine_po = amount_original * COEF_MORPHINE_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[1]) {    // "ketobemidon po",
-            amount_morphine_po = amount_original * COEF_KETOBEMIDON_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[2]) {    // "kodein po",
-            amount_morphine_po = amount_original * COEF_KODEIN_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[3]) {    // "tramadol po",
-            amount_morphine_po = amount_original * COEF_TRAMADOL_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[4]) {    // "oxykodon po",
-            amount_morphine_po = amount_original * COEF_OXYKODON_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[5]) {    // "tapentadol po",
-            amount_morphine_po = amount_original * COEF_TAPENTADOL_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[6]) {    // "hydromorfon po",
-            amount_morphine_po = amount_original * COEF_HYDROMORFON_PO_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[7]) {    // "buprenorfin sl",
-            amount_morphine_po = amount_original * COEF_BUPRENORFIN_SL_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[8]) {    // "metadon po",
-           // amount_morphine_po = amount_original * getCoef_Metadon_To_MorphinePo(amount_orignal);
-        }else if(opiode_original == opiates[9]) {    // "buprenorfin bandaid",
-            amount_morphine_po = amount_original * COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[10]) {    // "fentanyl bandaid",
-            amount_morphine_po = amount_original * COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[11]) {    // "morfin sc/iv",
-            amount_morphine_po = amount_original * COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[12]) {    // "ketobemidon sc/iv",
-            amount_morphine_po = amount_original * COEF_KETOBEMIDON_SC_IV_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[13]) {    // "fentanyl sc/iv",
-            amount_morphine_po = amount_original * COEF_FENTANYL_SC_IV_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[14]) {    // "oxykodon sc/iv",
-            amount_morphine_po = amount_original * COEF_OXYKODON_SC_IV_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[15]) {    // "hydromorfon sc/iv",
-            amount_morphine_po = amount_original * COEF_HYDROMORFON_SC_IV_TO_MORPHINE_PO;
-        }else if(opiode_original == opiates[16]) {    // "metadon sc/iv"
-            //amount_morphine_po = amount_original *
-        }
+        double amount_morphine_po = convert2morphine(opioid_original, amount_original);
 
         // Array to hold the result values after the conversion
-        double[] amount_result = new double[selected.size()];
-
-        // Convert Morphine medicine into target medicine
-        for(int i=0; i< selected.size(); i++) {
-            if(selected.get(i) == opiates[0]) {     // "morfin po",
-                amount_result[i] = amount_morphine_po / COEF_MORPHINE_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[1]) {    // "ketobemidon po",
-                amount_result[i] = amount_morphine_po / COEF_KETOBEMIDON_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[2]) {    // "kodein po",
-                amount_result[i] = amount_morphine_po / COEF_KODEIN_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[3]) {    // "tramadol po",
-                amount_result[i] = amount_morphine_po / COEF_TRAMADOL_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[4]) {    // "oxykodon po",
-                amount_result[i] = amount_morphine_po / COEF_OXYKODON_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[5]) {    // "tapentadol po",
-                amount_result[i] = amount_morphine_po / COEF_TAPENTADOL_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[6]) {    // "hydromorfon po",
-                amount_result[i] = amount_morphine_po / COEF_HYDROMORFON_PO_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[7]) {    // "buprenorfin sl",
-                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_SL_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[8]) {    // "metadon po",
-                // amount_morphine_po = amount_morphine_po * getCoef_Metadon_To_MorphinePo(amount_orignal);
-            }else if(selected.get(i) == opiates[9]) {    // "buprenorfin bandaid",
-                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[10]) {    // "fentanyl bandaid",
-                amount_result[i] = amount_morphine_po / COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[11]) {    // "morfin sc/iv",
-                amount_result[i] = amount_morphine_po / COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[12]) {    // "ketobemidon sc/iv",
-                amount_result[i] = amount_morphine_po / COEF_KETOBEMIDON_SC_IV_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[13]) {    // "fentanyl sc/iv",
-                amount_result[i] = amount_morphine_po / COEF_FENTANYL_SC_IV_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[14]) {    // "oxykodon sc/iv",
-                amount_result[i] = amount_morphine_po / COEF_OXYKODON_SC_IV_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[15]) {    // "hydromorfon sc/iv",
-                amount_result[i] = amount_morphine_po / COEF_HYDROMORFON_SC_IV_TO_MORPHINE_PO;
-            }else if(selected.get(i) == opiates[16]) {    // "metadon sc/iv"
-                //amount_result[i] = amount_original *
-            }
-        }
+        double[] amount_result = convert2results(amount_morphine_po, selected);
 
         // We have to state that are intention is to open another Activity. We do so
         // by passing a Context and the Activity that we want to open
-
         Intent getNameScreenIntent = new Intent(this, Result.class);
-
-        // We ask for the Activity to start and don't expect a result to be sent back
-        // startActivity(getNameScreenIntent);
-
 
         // To send data use putExtra with a String name followed by its value
         getNameScreenIntent.putExtra("callingActivity", "MainActivity");
-        getNameScreenIntent.putExtra("original opiod", opiode_original);
+        getNameScreenIntent.putExtra("original opioid", opioid_original);
         getNameScreenIntent.putExtra("original amount", amount_original);
-        getNameScreenIntent.putStringArrayListExtra("target opiodes", selected);
-//        getNameScreenIntent.putExtra("target opiodes", selected);
+        getNameScreenIntent.putStringArrayListExtra("target opioids", selected);
         getNameScreenIntent.putExtra("target amount", amount_result);
 
-
-
+        // Start the result activity
         startActivity(getNameScreenIntent);
-
-        Toast.makeText(Converter.this, opiode_original, Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        // Create the TextView so I can put the users name on it
-//        TextView usersNameMessage = (TextView) findViewById(R.id.users_name_message);
-//
-//        // Get the users name from the previous Activity
-//        String nameSentBack = data.getStringExtra("UsersName");
-//
-//        // Add the users name to the end of the textView
-//        usersNameMessage.append(" " + nameSentBack);
-//
-//    }
+    private double convert2morphine(String opioid_original, double amount_original){
+        double amount_morphine_po=0;
+        if(opioid_original == opioids[0]) {     // "morphine po",
+            amount_morphine_po = amount_original * COEF_MORPHINE_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[1]) {    // "ketobemidon po",
+            amount_morphine_po = amount_original * COEF_KETOBEMIDON_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[2]) {    // "kodein po",
+            amount_morphine_po = amount_original * COEF_KODEIN_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[3]) {    // "tramadol po",
+            amount_morphine_po = amount_original * COEF_TRAMADOL_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[4]) {    // "oxykodon po",
+            amount_morphine_po = amount_original * COEF_OXYKODON_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[5]) {    // "tapentadol po",
+            amount_morphine_po = amount_original * COEF_TAPENTADOL_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[6]) {    // "hydromorfon po",
+            amount_morphine_po = amount_original * COEF_HYDROMORFON_PO_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[7]) {    // "buprenorfin sl",
+            amount_morphine_po = amount_original * COEF_BUPRENORFIN_SL_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[8]) {    // "metadon po",
+            // amount_morphine_po = amount_original * getCoef_Metadon_To_MorphinePo(amount_orignal);
+        }else if(opioid_original == opioids[9]) {    // "buprenorfin bandaid",
+            amount_morphine_po = amount_original * COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[10]) {    // "fentanyl bandaid",
+            amount_morphine_po = amount_original * COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[11]) {    // "morfin sc/iv",
+            amount_morphine_po = amount_original * COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[12]) {    // "ketobemidon sc/iv",
+            amount_morphine_po = amount_original * COEF_KETOBEMIDON_SC_IV_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[13]) {    // "fentanyl sc/iv",
+            amount_morphine_po = amount_original * COEF_FENTANYL_SC_IV_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[14]) {    // "oxykodon sc/iv",
+            amount_morphine_po = amount_original * COEF_OXYKODON_SC_IV_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[15]) {    // "hydromorfon sc/iv",
+            amount_morphine_po = amount_original * COEF_HYDROMORFON_SC_IV_TO_MORPHINE_PO;
+        }else if(opioid_original == opioids[16]) {    // "metadon sc/iv"
+            //amount_morphine_po = amount_original *
+        }
+        return amount_morphine_po;
+    }
+
+    private double[] convert2results(double amount_morphine_po, ArrayList<String> selected){
+        double[] amount_result = new double[selected.size()];
+
+        for(int i=0; i< selected.size(); i++) {
+            if(selected.get(i) == opioids[0]) {     // "morfin po",
+                amount_result[i] = amount_morphine_po / COEF_MORPHINE_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[1]) {    // "ketobemidon po",
+                amount_result[i] = amount_morphine_po / COEF_KETOBEMIDON_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[2]) {    // "kodein po",
+                amount_result[i] = amount_morphine_po / COEF_KODEIN_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[3]) {    // "tramadol po",
+                amount_result[i] = amount_morphine_po / COEF_TRAMADOL_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[4]) {    // "oxykodon po",
+                amount_result[i] = amount_morphine_po / COEF_OXYKODON_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[5]) {    // "tapentadol po",
+                amount_result[i] = amount_morphine_po / COEF_TAPENTADOL_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[6]) {    // "hydromorfon po",
+                amount_result[i] = amount_morphine_po / COEF_HYDROMORFON_PO_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[7]) {    // "buprenorfin sl",
+                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_SL_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[8]) {    // "metadon po",
+                // amount_morphine_po = amount_morphine_po * getCoef_Metadon_To_MorphinePo(amount_orignal);
+            }else if(selected.get(i) == opioids[9]) {    // "buprenorfin bandaid",
+                amount_result[i] = amount_morphine_po / COEF_BUPRENORFIN_PLASTER_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[10]) {    // "fentanyl bandaid",
+                amount_result[i] = amount_morphine_po / COEF_FENTANYL_PLASTER_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[11]) {    // "morfin sc/iv",
+                amount_result[i] = amount_morphine_po / COEF_MORPHINE_SC_IV_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[12]) {    // "ketobemidon sc/iv",
+                amount_result[i] = amount_morphine_po / COEF_KETOBEMIDON_SC_IV_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[13]) {    // "fentanyl sc/iv",
+                amount_result[i] = amount_morphine_po / COEF_FENTANYL_SC_IV_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[14]) {    // "oxykodon sc/iv",
+                amount_result[i] = amount_morphine_po / COEF_OXYKODON_SC_IV_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[15]) {    // "hydromorfon sc/iv",
+                amount_result[i] = amount_morphine_po / COEF_HYDROMORFON_SC_IV_TO_MORPHINE_PO;
+            }else if(selected.get(i) == opioids[16]) {    // "metadon sc/iv"
+                //amount_result[i] = amount_original *
+            }
+        }
+        return amount_result;
+    }
 }

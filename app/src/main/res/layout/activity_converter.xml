@@ -64,9 +64,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go Get It"
+        android:text="Convert"
         android:layout_marginTop="20dp"
-        android:onClick="onGetNameClick"/>
+        android:onClick="onConvertClick"/>
 
     <TextView
         android:text="@string/users_name_sent_back"
