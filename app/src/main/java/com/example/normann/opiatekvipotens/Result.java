@@ -23,14 +23,17 @@ public class Result extends Activity{
         // Get passed objects
         Intent intent = getIntent();
         String original_opiod = intent.getStringExtra("original opioid");
-        TextView originalTextView = (TextView)findViewById(R.id.original);
-        originalTextView.setText(original_opiod);
+        double original_amount = intent.getDoubleExtra("original amount", 0);
         ArrayList<String> selected = intent.getStringArrayListExtra("target opioids");
         double[] dosages = intent.getDoubleArrayExtra("target amount");
 
+        // Display original opioid and dosage
+        TextView originalTextView = (TextView)findViewById(R.id.original);
+        originalTextView.setText("Fra " + original_amount + " mg med " + original_opiod);
+
+
         // Display selected opioids as listview
         MyAdapter adapter = new MyAdapter(this, selected, dosages);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, R.id.listviewopioid, selected);
         ListView resultListView = (ListView) findViewById(R.id.resultListView);
         resultListView.setAdapter(adapter);
     }

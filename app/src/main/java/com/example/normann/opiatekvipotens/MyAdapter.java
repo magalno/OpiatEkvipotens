@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MyAdapter extends ArrayAdapter<String> {
@@ -29,7 +31,8 @@ public class MyAdapter extends ArrayAdapter<String> {
         TextView opioidTextview = (TextView) rowView.findViewById(R.id.listviewopioid);
         TextView dosageTextview = (TextView) rowView.findViewById(R.id.listviewdosage);
         opioidTextview.setText(opioids.get(position));
-        dosageTextview.setText(""+dosages[position]);
+        DecimalFormat df = new DecimalFormat("#.#");
+        dosageTextview.setText(""+df.format(dosages[position]));
         return rowView;
     }
 }
