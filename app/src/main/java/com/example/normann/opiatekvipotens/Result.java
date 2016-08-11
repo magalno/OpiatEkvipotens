@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Result extends Activity{
         Intent intent = getIntent();
         String original_opiod = intent.getStringExtra("original opioid");
         double original_amount = intent.getDoubleExtra("original amount", 0);
-        ArrayList<String> selected = intent.getStringArrayListExtra("target opioids");
+        final ArrayList<String> selected = intent.getStringArrayListExtra("target opioids");
         double[] dosages = intent.getDoubleArrayExtra("target amount");
 
         // Display original opioid and dosage
@@ -36,5 +38,15 @@ public class Result extends Activity{
         MyAdapter adapter = new MyAdapter(this, selected, dosages);
         ListView resultListView = (ListView) findViewById(R.id.resultListView);
         resultListView.setAdapter(adapter);
+
+        // Add onItemClickListener in case it is needed
+        resultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Toast.makeText(Result.this, selected.get(arg2), Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 }

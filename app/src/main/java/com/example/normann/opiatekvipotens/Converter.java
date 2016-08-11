@@ -3,6 +3,7 @@ package com.example.normann.opiatekvipotens;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,39 +100,45 @@ public class Converter extends ActionBarActivity {
     }
 
     public void onConvertClick(View view) {
-        // Get input opioid
-        Spinner originalSpin = (Spinner)findViewById(R.id.toSpinner);
-        String opioid_original = originalSpin.getSelectedItem().toString();
-
-
-        // Get target opiods from input selector
-        MultiSelectSpinner fromSpin = (MultiSelectSpinner)findViewById(R.id.my_spin);
-        ArrayList<String> selected = fromSpin.getSelectedStrings();
-
         // Get amount_original
         EditText dosageEditText = (EditText)findViewById(R.id.dosage);
         String dosageTextString = dosageEditText.getText().toString();
-        double amount_original= Double.parseDouble(dosageTextString);
 
-        // Convert medicine to Morphine before further convertion...
-        double amount_morphine_po = convert2morphine(opioid_original, amount_original);
 
-        // Array to hold the result values after the conversion
-        double[] amount_result = convert2results(amount_morphine_po, selected);
+        if (dosageTextString.length()>0) {
+            double amount_original= Double.parseDouble(dosageTextString);
+            // Get input opioid
+            Spinner originalSpin = (Spinner) findViewById(R.id.toSpinner);
+            String opioid_original = originalSpin.getSelectedItem().toString();
 
-        // We have to state that are intention is to open another Activity. We do so
-        // by passing a Context and the Activity that we want to open
-        Intent getNameScreenIntent = new Intent(this, Result.class);
 
-        // To send data use putExtra with a String name followed by its value
-        getNameScreenIntent.putExtra("callingActivity", "MainActivity");
-        getNameScreenIntent.putExtra("original opioid", opioid_original);
-        getNameScreenIntent.putExtra("original amount", amount_original);
-        getNameScreenIntent.putStringArrayListExtra("target opioids", selected);
-        getNameScreenIntent.putExtra("target amount", amount_result);
+            // Get target opiods from input selector
+            MultiSelectSpinner fromSpin = (MultiSelectSpinner) findViewById(R.id.my_spin);
+            ArrayList<String> selected = fromSpin.getSelectedStrings();
 
-        // Start the result activity
-        startActivity(getNameScreenIntent);
+            // Convert medicine to Morphine before further convertion
+            double amount_morphine_po = convert2morphine(opioid_original, amount_original);
+
+            // Array to hold the result values after the convertion
+            double[] amount_result = convert2results(amount_morphine_po, selected);
+
+            // We have to state that are intention is to open another Activity. We do so
+            // by passing a Context and the Activity that we want to open
+            Intent getNameScreenIntent = new Intent(this, Result.class);
+
+            // Send data to result activity
+            getNameScreenIntent.putExtra("callingActivity", "MainActivity");
+            getNameScreenIntent.putExtra("original opioid", opioid_original);
+            getNameScreenIntent.putExtra("original amount", amount_original);
+            getNameScreenIntent.putStringArrayListExtra("target opioids", selected);
+            getNameScreenIntent.putExtra("target amount", amount_result);
+
+            // Start the result activity
+            startActivity(getNameScreenIntent);
+        }
+        else {
+            Toast.makeText(Converter.this, "Mengden kan ikke være tom.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private double convert2morphine(String opioid_original, double amount_original){

@@ -35,4 +35,6 @@ public class MyAdapter extends ArrayAdapter<String> {
         dosageTextview.setText(""+df.format(dosages[position]));
         return rowView;
     }
+
+
 }
