@@ -15,6 +15,7 @@ public class MyAdapter extends ArrayAdapter<String> {
     private final Context context;
     private ArrayList<String> opioids;
     private double[] dosages;
+    private Converter converter = new Converter();
 
     public MyAdapter(Context context, ArrayList<String> opioids, double[] dosages) {
         super(context, R.layout.rowlayout, opioids);
@@ -32,7 +33,7 @@ public class MyAdapter extends ArrayAdapter<String> {
         TextView dosageTextview = (TextView) rowView.findViewById(R.id.listviewdosage);
         opioidTextview.setText(opioids.get(position));
         DecimalFormat df = new DecimalFormat("#.#");
-        dosageTextview.setText(""+df.format(dosages[position]));
+        dosageTextview.setText(""+df.format(dosages[position])+" "+converter.getUnit(opioids.get(position)));
         return rowView;
     }
 

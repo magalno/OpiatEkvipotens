@@ -3,6 +3,7 @@ package com.example.normann.opiatekvipotens;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Result extends Activity{
+    private Converter converter = new Converter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +33,9 @@ public class Result extends Activity{
         double[] dosages = intent.getDoubleArrayExtra("target amount");
 
         // Display original opioid and dosage
+        String unit = " "+converter.getUnit(original_opiod)+" ";
         TextView originalTextView = (TextView)findViewById(R.id.original);
-        originalTextView.setText("Fra " + original_amount + " mg med " + original_opiod);
+        originalTextView.setText("Fra " + original_amount + unit + original_opiod);
 
 
         // Display selected opioids as listview
@@ -48,5 +52,12 @@ public class Result extends Activity{
             }
 
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.result, menu);
+        return true;
     }
 }
