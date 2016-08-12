@@ -75,18 +75,18 @@ public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickLis
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMultiChoiceItems(_items, _selection, this);
-        builder.setTitle("title");
-        builder.setNeutralButton("Clear All",
+        builder.setTitle("Opioider");
+        builder.setNeutralButton("Fjern alle",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
-        builder.setPositiveButton("Ok",
+        builder.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
-        builder.setNegativeButton("Select All",
+        builder.setNegativeButton("Markér alle",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
