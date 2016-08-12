@@ -1,46 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="left"
     android:padding="20dp">
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/original" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enter_name_text_view"/>
-
-        <EditText
-            android:layout_width="185dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/users_name_edit_text"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+        android:text="@string/ekvipotent" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter"
-            android:onClick="onSendUsersName"/>
+    <ListView
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultListView" />
 
-        <TextView
-            android:id="@+id/calling_activity_info_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/calling_activity_message"/>
-
-    </LinearLayout>
 
 </LinearLayout>

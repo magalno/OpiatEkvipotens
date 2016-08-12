@@ -15,44 +15,45 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text= "Enter dosage:" />
+            android:text= "@string/enter_dosage" />
 
         <EditText
             android:layout_width="70dp"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content"
-            android:id="@+id/dosage" />
+            android:id="@+id/dosage"
+            android:textSize="22sp"
+            android:maxLength="4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/unitTextView"
+            android:text="mg"/>
 
     </LinearLayout>
 
     <TextView
-        android:text="@string/get_the_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:text= " " />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From:"
-        android:id="@+id/textView"
-        android:textSize="24dp" />
+        android:text="@string/from" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
-        android:id="@+id/toSpinner" />
+        android:id="@+id/fromSpinner" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To:"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal"
-        android:textSize="24dp" />
+        android:text="@string/to" />
 
     <com.example.normann.opiatekvipotens.MultiSelectSpinner
         android:id="@+id/my_spin"
@@ -64,23 +65,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go Get It"
+        android:text="@string/convert"
         android:layout_marginTop="20dp"
-        android:onClick="onGetNameClick"/>
-
-    <TextView
-        android:text="@string/users_name_sent_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/users_name_message"/>
+        android:textSize="24sp"
+        android:onClick="onConvertClick"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello"
+        android:text="@string/warning"
+        android:textSize="18sp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_weight="1"
         />
 
 </LinearLayout>
