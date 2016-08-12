@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -74,8 +75,71 @@ public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickLis
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMultiChoiceItems(_items, _selection, this);
-        builder.show();
+        builder.setTitle("title");
+        builder.setNeutralButton("Clear All",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+        builder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+        builder.setNegativeButton("Select All",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+                        selectAll(false, dialog);
+
+                        if (wantToCloseDialog)
+                            dialog.dismiss();
+                    }
+                });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+                        selectAll(true, dialog);
+
+                        if (wantToCloseDialog)
+                            dialog.dismiss();
+                    }
+                });
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = true;
+                        if (wantToCloseDialog)
+                            dialog.dismiss();
+                    }
+                });
         return true;
+    }
+
+    protected void selectAll(boolean isSelectAll, AlertDialog dialog) {
+        if (_selection != null) {
+            for (int i = 0; i < _items.length; i++) {
+                _selection[i] = isSelectAll;
+                ((AlertDialog) dialog).getListView().setItemChecked(i, isSelectAll);
+
+            }
+            _proxyAdapter.clear();
+            _proxyAdapter.add(buildSelectedItemString());
+        } else {
+            throw new IllegalArgumentException("mSelection is null");
+        }
     }
 
     /**
