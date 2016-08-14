@@ -11,4 +11,9 @@
         android:title="@string/exit_button"
         app:showAsAction="ifRoom|withText"
         />
+    <item android:id="@+id/table_pdf"
+        android:title="@string/table_pdf"
+        app:showAsAction="never"
+        android:onClick="open_table_pdf"
+        />
 </menu>

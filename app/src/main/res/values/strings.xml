@@ -13,4 +13,5 @@
     <string name="updates">Oppdateringer i denne versjonen: En enkel versjon av applikasjonen er lagd, og er klar for brukertesting. </string>
     <string name="exit_button">Avslutt</string>
     <string name="ekvipotent">(Ekvipotent dose)</string>
+    <string name="table_pdf">Tabell</string>
 </resources>

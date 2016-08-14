@@ -1,5 +1,6 @@
 package com.example.normann.opiatekvipotens;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -254,5 +255,10 @@ public class Converter extends ActionBarActivity {
             }
         }
         return amount_result;
+    }
+
+    public void open_table_pdf(MenuItem item) {
+        Intent tablePdfIntent = new Intent(this, TablePdf.class);
+        startActivity(tablePdfIntent);
     }
 }
